@@ -9,7 +9,7 @@ import java.util.Random;
 public class BPR {
     private int users_num;
     private int items_num;
-    private ArrayList<int[]> triads = new ArrayList<>();//[[u1,i1,j1],[u2,i2,j2],...]
+   /* private ArrayList<int[]> triads = new ArrayList<>();//[[u1,i1,j1],[u2,i2,j2],...]*/
     private int[][] train_matrix;
     private int[][] test_matrix;
     private double step_para;//梯度步长
