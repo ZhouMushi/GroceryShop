@@ -5,6 +5,68 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.io.*;
+
+public class TestCode {
+    public static void main(String[] arg0) throws IOException {
+/* u.data     -- The full u data set, 100000 ratings by 943 users on 1682 items.
+              Each user has rated at least 20 movies.  Users and items are
+              numbered consecutively from 1.  The data is randomly
+              ordered. This is a tab separated list of
+	         user id | item id | rating | timestamp.
+              The time stamps are unix seconds since 1/1/1970 UTC*/
+        int[][] train_matrix = new int[943][1682];
+        int[][] test_matrix = new int[943][1682];
+        File filename = new File("u.data");
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
+        BufferedReader br = new BufferedReader(reader);
+        String line = "";
+        line = br.readLine();
+        int i=0;
+        while(line != null) {
+            if(i<50000) {
+                String[] array = line.split("\t");
+                train_matrix[Integer.parseInt(array[0]) - 1][Integer.parseInt(array[1]) - 1] = Integer.parseInt(array[2]);
+                line = br.readLine();
+            }else{
+                String[] array = line.split("\t");
+                test_matrix[Integer.parseInt(array[0]) - 1][Integer.parseInt(array[1]) - 1] = Integer.parseInt(array[2]);
+                line = br.readLine();
+            }
+            i++;
+        }
+        BPR bpr3 = new BPR(train_matrix,test_matrix,0.5,0.0001,5);
+        bpr3.train(5);
+        bpr3.test(5);
+        System.out.println(bpr3.getIndexof(1,1));
+        bpr3.train(10);
+        bpr3.test(5);
+        System.out.println(bpr3.getIndexof(1,1));
+        bpr3.train(20);
+        bpr3.test(5);
+        System.out.println(bpr3.getIndexof(1,1));
+        BPR bpr1 = new BPR(train_matrix,test_matrix,0.5,0.0001,10);
+        bpr1.train(5);
+        bpr1.test(5);
+        System.out.println(bpr1.getIndexof(1,1));
+        bpr1.train(10);
+        bpr1.test(5);
+        System.out.println(bpr1.getIndexof(1,1));
+        bpr1.train(20);
+        bpr1.test(5);
+        System.out.println(bpr1.getIndexof(1,1));
+        BPR bpr2 = new BPR(train_matrix,test_matrix,0.5,0.0001,19);
+        bpr2.train(5);
+        bpr2.test(5);
+        System.out.println(bpr2.getIndexof(1,1));
+        bpr2.train(10);
+        bpr2.test(5);
+        System.out.println(bpr2.getIndexof(1,1));
+        bpr2.train(20);
+        bpr2.test(5);
+        System.out.println(bpr2.getIndexof(1,1));
+    }
+}
 
 public class BPR {
     private int users_num;
